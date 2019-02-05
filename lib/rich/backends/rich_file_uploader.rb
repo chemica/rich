@@ -52,7 +52,7 @@ class RichFileUploader < CarrierWave::Uploader::Base
     file.try(:content_type) == "image/jpeg"
   end
 
-  def image?
+  def image?(file)
     gif? || png? || jpg?
   end
 
