@@ -32,13 +32,29 @@ class RichFileUploader < CarrierWave::Uploader::Base
   # end
 
   Rich.image_styles.each do |name,size|
-    version name do
+    version name, if: :image? do
       process :resize_to_fit => size.gsub("#", "").split("x").map(&:to_i)
     end
   end
   # version :rich_thumb do
     # process :resize_to_fit => [100, 100]
   # end
+
+  def gif?
+    file.try(:content_type) == "image/gif"
+  end
+
+  def png?
+    file.try(:content_type) == "image/png"
+  end
+
+  def jpg?
+    file.try(:content_type) == "image/jpeg"
+  end
+
+  def image?
+    gif? || png? || jpg?
+  end
 
   # Add a white list of extensions which are allowed to be uploaded.
   # For images you might use something like this:
